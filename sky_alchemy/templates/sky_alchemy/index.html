@@ -1,0 +1,101 @@
+{% extends "mysite/base.html" %}
+{% block htmltagoptions %}
+<html ng-app="skyrimjs">
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block maincontent %}
+{% verbatim %}
+<div ng-controller="alchemy as alch">
+    <div class="row">
+        <div class="wrapper">
+            <div class="col-sm-4 scroll">
+                <h4>Existing ingredients</h4>
+                <button ng-click="showEffects=!showEffects"><span ng-show="showEffects">Hide</span><span ng-hide="showEffects">Show</span> Effects</button>
+                <button ng-click="resetKnownEffects()">Reset effects</button>
+                <h1 ng-hide="ingredients"><strong>Loading Ingredients</strong></h1>
+                <ul ng-repeat="ingredient in ingredients track by $index">
+                    <li>{{ingredient.name}}</br>
+                        <ul ng-repeat="effect in ingredient.effects track by $index" ng-show="showEffects">
+                            <li><input type="checkbox" ng-model="knownEffects[$parent.$index][$index]" ng-change="sortLearned()">{{effect}}</li>
+                        </ul> 
+                        <button class="btn btn-success" ng-click="addIngredients($index, 1)">add 1</button>
+                        <button class="btn btn-success" ng-click="addIngredients($index, 5)">add 5</button>
+                        <button class="btn btn-success" ng-click="addIngredients($index, 10)">add 10</button>
+                    </li>       
+                </ul>
+            </div>
+            <div class="col-sm-4 scroll">
+                <h4>Owned ingredients</h4>
+                <button ng-click="clearOwned()">Clear</button>
+                <ul ng-repeat="ingredient in ingredients track by $index">
+                    <li ng-show="ingredient.owned"> {{ingredient.owned}} of {{ingredient.name}}</br>
+                    <button class="btn btn-danger" ng-click="addIngredients($index, -1)">del 1</button>
+                    <button class="btn btn-danger" ng-click="addIngredients($index, -5)">del 5</button>
+                    <button class="btn btn-danger" ng-click="addIngredients($index, -10)">del 10</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-4 scroll">
+                <h4>Possible potions</h4>
+                <button ng-click="showPotionDetails = !showPotionDetails">details</button>
+                <h5>Two ingredients:</h5>
+                <ul ng-repeat="potion in potions.twoIngredient track by $index">
+                    <li>
+                        {{ingredients[potion.ingredient1].name}} + {{ingredients[potion.ingredient2].name}}</br>
+                        effects: <span ng-hide="showPotionDetails">{{potion.effects.length}}</span>
+                        <ul ng-repeat="effect in potion.effects" ng-show="showPotionDetails" >
+                            <li>{{effect}}</li>
+                        </ul>
+                        learned: <span ng-hide="showPotionDetails" >{{potion.learnnew()}}</span>
+                        <ul ng-repeat="learned in potion.learneffects track by $index" ng-show="showPotionDetails">
+                            <li ng-hide="knownEffects[learned[0]][learned[1]]">{{ingredients[learned[0]].name}}:{{ingredients[learned[0]].effects[learned[1]]}}</li>
+                        </ul>
+                        <button class="btn btn-primary btn-xs" ng-click="makePotion(potion)">make</button>
+                    </li>
+                    
+                </ul>
+                <h5>Three ingredients:</h5>
+                <ul ng-repeat="potion in potions.threeIngredient track by $index">
+                    <li>
+                        {{ingredients[potion.ingredient1].name}} + {{ingredients[potion.ingredient2].name}} + {{ingredients[potion.ingredient3].name}}</br>
+                        effects: <span ng-hide="showPotionDetails">{{potion.effects.length}}</span>
+                        <ul ng-repeat="effect in potion.effects track by $index" ng-show="showPotionDetails" >
+                            <li>{{effect}}</li>
+                        </ul>
+                        learned: <span ng-hide="showPotionDetails" >{{potion.learnnew()}}</span>
+                        <ul ng-repeat="learned in potion.learneffects track by $index" ng-show="showPotionDetails" >
+                            <li ng-hide="knownEffects[learned[0]][learned[1]]">{{ingredients[learned[0]].name}}:{{ingredients[learned[0]].effects[learned[1]]}}</li>
+                        </ul>
+                        <button class="btn btn-primary btn-xs" ng-click="makePotion(potion)">make</button>
+                    </li>                  
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>Top learning potions</h4>
+            <ul ng-repeat="potion in top_potions() track by $index">
+                <li ng-show="potion">
+                    <button class="btn btn-primary btn-xs" ng-click="makePotion(potion)">make</button>
+                    {{ingredients[potion.ingredient1].name}} + {{ingredients[potion.ingredient2].name}} 
+                    <span ng-show="potion.ingredient3"> + {{ingredients[potion.ingredient3].name}} </span>
+                    effects: {{potion.effects.length}}
+                    learned: {{potion.learnnew()}}
+                    
+                </li>                  
+            </ul>
+        </div>
+    </div>
+    <div style="display:block;clear:both;"></div>
+</div>
+{% endverbatim %}
+
+{% block javascript %}
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+<script src="{% static 'sky_alchemy/js/sky_app.js' %}"></script>
+{% endblock %}
+    
+{% endblock %}

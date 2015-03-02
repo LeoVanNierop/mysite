@@ -1,0 +1,20 @@
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+import mysite.views 
+
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+    url(r'^$', 'mysite.views.home', name='home'),
+<<<<<<< working copy
+    url(r'^contact/$', 'mysite.views.contact', name='contact'),
+=======
+    url(r'^contact/$', mysite.views.ContactView.as_view(), name='contact'),
+    url(r'^contact/thanks$', 'mysite.views.thanks', name='contactthanks'),
+    url(r'^GR/', include('GRcalculator.urls', namespace='GR')),
+>>>>>>> destination
+    url(r'^polls/', include('polls.urls', namespace='polls')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^skyrim/', include('sky_alchemy.urls', namespace='skyrim')),
+)

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% block htmltagoptions %}
+<html>
+{% endblock %}
+    <head>
+        <title>{% block title %} Leo van Nierop's Django powered personal website{% endblock %}</title>
+        {% load staticfiles %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">       
+        {% block mycssfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'base/css/style.css' %}" />
+        {% endblock %}
+    </head>
+    <body>       
+        {% block menubar %}
+            <div class=nav>
+                <div class="navbar navbar-inverse navbar-static-top">
+                    <div class="container">
+                        <a href="{% url 'home' %}" class="navbar-brand">Home</a>
+                        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="collapse navbar-collapse navHeaderCollapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{% url 'skyrim:index' %}">Skyrim Alchemy app</a></li>
+                                <li><a href="{% url 'contact' %}">Contact me</a></li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div><!--closes navbar-->
+            </div>
+            {% endblock %}
+            
+        <header>
+            {% block pageheader %}
+            <div class="container">
+                <h1> Welcome to Leo van Nierop's Django powered personal website </h1>
+            </div><!--closes Pagetitle-->
+            {% endblock %}    
+        </header>
+        
+        <div class="container">
+            {% block maincontent %}
+            <h1>Introduction</h1>
+            <div class="row">
+                <div class="col-xs-12">
+                     <div class="col-xs-6"><img src={% static "base/images/LeoFoto.png" %} alt="Site owner picture" class="img-responsive"></div>                  
+                
+                    <h2>Leo and Work</h2>
+                    <p>Welcome to my personal web page. Allow me to introduce myself: my name is Leo van Nierop. 
+                    I am a particle physicist turned web developer, and this website is part of this transition. 
+                    My field of study was on the interface of particle physics and cosmology. In particular, together 
+                    with my supervisor, <a href="http://www.physics.mcmaster.ca/~cburgess/cburgess/">Cliff Burges</a>, 
+                    and co-student (is that a word?) 
+                    <a href="http://www.kuleuven.be/wieiswie/nl/person/00099126">Matt Williams</a>, we attempted to 
+                    tackle the Cosmological Constant problem. For those not in the know: the cosmological constant is a 
+                    parameter in our model for the universe that drives the universe to expand faster and faster. It has 
+                    been measured by looking at the velocities of distant galaxies. It can also be predicted by calculating 
+                    the energy of empty space (which, in quantum mechanics, is not zero). The problem, then, is that the 
+                    calculated value is about 40 orders of magnitude (10000000000000000000000000000000000000000 times) 
+                    larger than the measured value. For a good review about the problem, and some notes on our take on a 
+                    solution, check out <a href="http://arxiv.org/abs/1309.4133">this</a> paper (very math-y, be warned).
+                    </p>
+                    <p>After trying my hand at academic research I have found that such a career is cool to talk about, 
+                    but for me ultimately unsatisfactory. This is why I have been looking into a career that involves 
+                    building or improving a product that will be actively used by (hopefully many) customers. When 
+                    (fingers crossed) I acquire a work permit, I will start working at 
+                    <a href="https://massuni.com/">Massuni</a> custom furniture design. Look at the demo, it is really 
+                    cool! I'll wait for you, don't worry.
+                    </p>
+                    <p>Now that we are all on the same page (you did watch the video, didn't you?), that is what I will 
+                    be spending the majority of my time on for the foreseeable future. This leaves me in a position where I 
+                    have to quickly get familiar with a whole technology stack for dynamical websites. Luckily for me, Django 
+                    was developed in an environment with harsh deadlines, so it was made mainly to get things done, NOW! If 
+                    you are also looking for a place to start with web development, and you are partial to Python 
+                    (or impartial to programming languages), a good place to start is the 
+                    <a href="https://www.djangoproject.com/">Django</a> homepage, do the tutorial, and then work through 
+                    the docs.
+                    </p>
+                    
+                    <h2>Leo and Play</h2>
+                    <p>Here's the problem with my hobbies: they're not very exciting to write about, and I have about 
+                    zero pictures of them. The main reason for that is that when I am doing something I like, why would I then 
+                    waste time spent on enjoying myself by taking pictures? From that statement, of course, you know 
+                    photography is not one of those hobbies... 
+                    </p>
+                    <p>One constant in my free time is that I love playing games. Computer games, board games, card games: 
+                    everything. I especially have a sweet spot for strategic games. I am a long time (on and off) fan of 
+                    <a href="http://magic.wizards.com/">Magic</a>. I have spent more hours on 
+                    <a href="http://www.elderscrolls.com/skyrim">Skyrim</a> then I dare to recount (hence the skyrim alchemy 
+                    app in my links: a practise project to get the hang of things). I used to be an avid 
+                    ping pong player, but this has taken a back seat the last few years mostly due to frequent moving. I 
+                    intent to at least look into the options of picking that up again once I am settled in Toronto. 
+                    </p>
+                    <p>I read and watch a lot of science fiction and fantasy. I am particularly fond of near future dystopian 
+                    scifi, such as <a href="http://www.williamgibsonbooks.com/">William Gibson's</a> Neuromancer. A lot of 
+                    the concepts of Gibson's worlds are allready coming to life. We are relying more on technology than ever, 
+                    and there is a strong trend in the economy of catch up or lose. Of course traditional jobs are still very 
+                    much around, but for anyone my age I would advice them not to rely on this being true all the way until 
+                    retirement!
+                    </p>
+                </div>
+            </div>
+        {% endblock %}
+        </div>
+
+    {% block javascript %} 
+    {% endblock %}
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    </body>    
+</html>

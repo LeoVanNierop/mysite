@@ -1,0 +1,16 @@
+body{
+    height: 100vh;
+    min-height: 100vh;
+    overflow: scroll;
+}
+
+.scroll{
+    height: 60vh;
+    overflow: scroll;
+}
+
+
+
+
+
+
