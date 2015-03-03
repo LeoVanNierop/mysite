@@ -10,8 +10,8 @@ class ContactForm(forms.Form):
     
     def send_email(self):
         try:
-            subject = this.cleaned_data.get('subject')
-            message = this.cleaned_data.get('message')+"\n\n sender: " + this.cleaned_data.get('your_name') + " " + this.cleaned_data.get('your_email')
+            subject = self.cleaned_data.get('subject')
+            message = self.cleaned_data.get('message')+"\n\n sender: " + self.cleaned_data.get('your_name') + " " + self.cleaned_data.get('your_email')
             from_address = settings.EMAIL_HOST_USER
             print (subject, message, from_address)
         except Exception,e:
