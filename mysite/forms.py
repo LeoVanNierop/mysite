@@ -9,8 +9,8 @@ class ContactForm(forms.Form):
     
     def send_email(self):
         send_mail(form.cleaned_data['subject'], 
-                  form.cleaned_data[message]+"\n\n sender: " + form.cleaned_data[your_name],
-                  form.cleaned_data[your_email], 
+                  form.cleaned_data[message]+"\n\n sender: " + form.cleaned_data[your_name] + " " + form.cleaned_data[your_email],
+                  'leo.van.nierop@gmail.com', 
                   ['leo.van.nierop@gmail.com'], 
                   fail_silently=False)
         
