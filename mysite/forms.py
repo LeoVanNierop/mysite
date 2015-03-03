@@ -17,6 +17,7 @@ class ContactForm(forms.Form):
         except Exception,e:
             print str(e)
         try:
+            print "attempting send_email call"
             print send_mail(subject, 
                       message,
                       from_address, 
