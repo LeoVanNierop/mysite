@@ -9,14 +9,19 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
     
     def send_email(self):
-        subject = form.cleaned_data.get('subject'),
-        message = form.cleaned_data.get('message')+"\n\n sender: " + form.cleaned_data.get('your_name') + " " + form.cleaned_data.get('your_email')
-        from_address = settings.EMAIL_HOST_USER
-        print (subject, message, from_address)
-        send_mail(subject, 
-                  message,
-                  from_address, 
-                  ['leo.van.nierop@gmail.com'], 
-                  fail_silently=False)
-        
+        try:
+            subject = form.cleaned_data.get('subject'),
+            message = form.cleaned_data.get('message')+"\n\n sender: " + form.cleaned_data.get('your_name') + " " + form.cleaned_data.get('your_email')
+            from_address = settings.EMAIL_HOST_USER
+            print (subject, message, from_address)
+        except Exception,e:
+            print str(e)
+        try:
+            send_mail(subject, 
+                      message,
+                      from_address, 
+                      ['leo.van.nierop@gmail.com'], 
+                      fail_silently=False)
+        except Exception, e:
+            print str(e)
         #do this later
