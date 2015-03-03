@@ -12,6 +12,6 @@ class ContactForm(forms.Form):
                   form.cleaned_data[message]+"\n\n sender: " + form.cleaned_data[your_name] + " " + form.cleaned_data[your_email],
                   'leo.van.nierop@gmail.com', 
                   ['leo.van.nierop@gmail.com'], 
-                  fail_silently=False)
+                  fail_silently=True)
         
         #do this later
