@@ -9,8 +9,8 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
     
     def send_email(self):
-        subject = form.cleaned_data['subject'],
-        message = form.cleaned_data[message]+"\n\n sender: " + form.cleaned_data[your_name] + " " + form.cleaned_data[your_email]
+        subject = form.cleaned_data.get('subject'),
+        message = form.cleaned_data.get('message')+"\n\n sender: " + form.cleaned_data.get('your_name') + " " + form.cleaned_data.get('your_email')
         from_address = settings.EMAIL_HOST_USER
         print (subject, message, from_address)
         send_mail(subject, 
