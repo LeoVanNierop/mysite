@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.core.mail import send_mail
 
 class ContactForm(forms.Form):
@@ -10,8 +11,8 @@ class ContactForm(forms.Form):
     def send_email(self):
         send_mail(form.cleaned_data['subject'], 
                   form.cleaned_data[message]+"\n\n sender: " + form.cleaned_data[your_name] + " " + form.cleaned_data[your_email],
-                  'leo.van.nierop@gmail.com', 
+                  settings.EMAIL_HOST_USER, 
                   ['leo.van.nierop@gmail.com'], 
-                  fail_silently=True)
+                  fail_silently=False)
         
         #do this later
