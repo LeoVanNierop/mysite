@@ -17,7 +17,7 @@ class ContactForm(forms.Form):
         except Exception,e:
             print str(e)
         try:
-            send_mail(subject, 
+            print send_mail(subject, 
                       message,
                       from_address, 
                       ['leo.van.nierop@gmail.com'], 
