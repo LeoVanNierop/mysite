@@ -3,7 +3,6 @@ from .forms import ContactForm
 from django.views.generic.edit import FormView
 
 def home(request):
-    print ("blahblah")
     return render(request, "mysite/base.html")
  
 def thanks(request):

@@ -20,9 +20,9 @@
                         <ul ng-repeat="effect in ingredient.effects track by $index" ng-show="showEffects">
                             <li><input type="checkbox" ng-model="knownEffects[$parent.$index][$index]" ng-change="sortLearned()">{{effect}}</li>
                         </ul> 
-                        <button class="btn btn-success" ng-click="addIngredients($index, 1)">add 1</button>
-                        <button class="btn btn-success" ng-click="addIngredients($index, 5)">add 5</button>
-                        <button class="btn btn-success" ng-click="addIngredients($index, 10)">add 10</button>
+                        <button class="btn btn-success btn-xs" ng-click="addIngredients($index, 1)">add 1</button>
+                        <button class="btn btn-success btn-xs" ng-click="addIngredients($index, 5)">add 5</button>
+                        <button class="btn btn-success btn-xs" ng-click="addIngredients($index, 10)">add 10</button>
                     </li>       
                 </ul>
             </div>
@@ -31,9 +31,9 @@
                 <button ng-click="clearOwned()">Clear</button>
                 <ul ng-repeat="ingredient in ingredients track by $index">
                     <li ng-show="ingredient.owned"> {{ingredient.owned}} of {{ingredient.name}}</br>
-                    <button class="btn btn-danger" ng-click="addIngredients($index, -1)">del 1</button>
-                    <button class="btn btn-danger" ng-click="addIngredients($index, -5)">del 5</button>
-                    <button class="btn btn-danger" ng-click="addIngredients($index, -10)">del 10</button>
+                    <button class="btn btn-danger btn-xs" ng-click="addIngredients($index, -1)">del 1</button>
+                    <button class="btn btn-danger btn-xs" ng-click="addIngredients($index, -5)">del 5</button>
+                    <button class="btn btn-danger btn-xs" ng-click="addIngredients($index, -10)">del 10</button>
                     </li>
                 </ul>
             </div>
