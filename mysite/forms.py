@@ -13,17 +13,16 @@ class ContactForm(forms.Form):
             subject = self.cleaned_data.get('subject')
             message = self.cleaned_data.get('message')+"\n\n sender: " + self.cleaned_data.get('your_name') + "\n\n " + self.cleaned_data.get('your_email')
             from_address = settings.EMAIL_HOST_USER
-            print (subject, message, from_address)
         except Exception,e:
             print str(e)
         try:
-            print "attempting send_email call"
-            print send_mail(subject, 
+
+            send_mail(subject, 
                       message,
                       from_address, 
                       ['leo.van.nierop@gmail.com'], 
                       fail_silently=False)
-            print "send done"          
+          
         except Exception, e:
             print str(e)
-        #do this later
+        
