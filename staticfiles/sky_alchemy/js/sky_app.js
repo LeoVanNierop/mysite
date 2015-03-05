@@ -1,7 +1,7 @@
 var app = angular.module('skyrimjs',[]);
 app.controller("alchemy", function($scope, $http){
-    var i,j,k,l;
     $http.get('./ingredients').success(function(data, status, headers, config){
+        var i;
         $scope.ingredients = data;
         $scope.knownEffects = [];
         for(i=0;i<$scope.ingredients.length;i++){
@@ -10,6 +10,7 @@ app.controller("alchemy", function($scope, $http){
         for(i=0;i<$scope.ingredients.length;i++){
             $scope.knownEffects[i] = [false, false, false, false];
         }
+        $scope.selectIngredientSet='all';      
     }).error(function(data,status,headers,config){
         $scope.ingredients = ["no ingredients returned"];
     });
@@ -19,16 +20,17 @@ app.controller("alchemy", function($scope, $http){
     };
     $scope.showEffects=false;
     $scope.addIngredients = function(id, number){
-            $scope.ingredients[id].owned += number;
-            if($scope.ingredients[id].owned <= 0){
-                $scope.ingredients[id].owned = 0;
-                $scope.calculatePotions();
-            }
+        $scope.ingredients[id].owned += number;
+        if($scope.ingredients[id].owned <= 0){
+            $scope.ingredients[id].owned = 0;
+            $scope.calculatePotions();
+        }
         if($scope.ingredients[id].owned === number){
             $scope.calculatePotions();
         }    
     };
     $scope.clearOwned = function(){
+        var i;
         for(i=0;i<$scope.ingredients.length;i++){
             $scope.ingredients[i].owned=0;
         }
@@ -36,6 +38,7 @@ app.controller("alchemy", function($scope, $http){
         $scope.potions.threeIngredient = [];
     }
     $scope.resetKnownEffects = function(){
+        var i;
         for(i=0;i<$scope.knownEffects.length;i++){
             $scope.knownEffects[i] = [false,false,false,false];
         }
@@ -43,6 +46,7 @@ app.controller("alchemy", function($scope, $http){
     }
     $scope.calculatePotionsTwo = function(){
         var effects = [], learneffects=[];
+        var i,j,k,l;
         $scope.potions.twoIngredient=[]
         for(i=0;i<$scope.ingredients.length;i++){
             for(j=i+1;j<$scope.ingredients.length;j++){
@@ -92,7 +96,7 @@ app.controller("alchemy", function($scope, $http){
     $scope.calculatePotionsThree = function(){
         $scope.potions.threeIngredient=[]
         var neweffects = [], learneffects=[];
-        var effects;
+        var effects, i, j, k, l;
         var effectAllready = false;
         var newPotion = true;
         var ingredient1, ingredient2, numeffects;
@@ -185,7 +189,6 @@ app.controller("alchemy", function($scope, $http){
         $scope.calculatePotionsTwo();
         $scope.calculatePotionsThree();
         $scope.sortLearned();
-        console.log("calculate potions");
     }
     $scope.sortLearned = function(){
         $scope.potions.twoIngredient.sort(function(a,b){
@@ -220,6 +223,7 @@ app.controller("alchemy", function($scope, $http){
         });
     }
     $scope.makePotion = function(potion){
+        var i;
         $scope.addIngredients(potion.ingredient1, -1);
         $scope.addIngredients(potion.ingredient2, -1);
         if(potion.ingredient3){
@@ -233,6 +237,7 @@ app.controller("alchemy", function($scope, $http){
     $scope.top_potions = function(){
         //return a list of potions
         var results = [];
+        var i;
         if((!$scope.potions.twoIngredient.length)&&(!$scope.potions.threeIngredient.length)){
             return results;
         }
@@ -257,5 +262,47 @@ app.controller("alchemy", function($scope, $http){
             }
         }
         return results;
+    }
+    $scope.saveProgress = function(){
+        var have = []
+        var i;
+        var d= new Date();
+        for(i=0;i<$scope.ingredients.length;i++){
+            if($scope.ingredients[i].owned){
+                have.push([i,$scope.ingredients[i].owned])
+            }
+        }
+        d.setTime(d.getTime()+30*24*60*60*1000) //30 days
+        document.cookie = "known="+JSON.stringify($scope.knownEffects)+"; expires="+d.toUTCString();
+        document.cookie = "ingredients="+JSON.stringify(have)+"; expires="+d.toUTCString();
+    }
+    $scope.loadProgress = function(){
+        var i,j,k;
+        var ca = document.cookie.split(";");
+        var testje
+        var temp_owned;
+        for(i=0;i<ca.length;i++){
+            var c=ca[i]
+            while(c.charAt(0)==' ') c = c.substring(1);//strip leading spaces
+            if(c.indexOf("known=")===0){
+                $scope.resetKnownEffects();
+                testje = c.substring(6)
+                testje = JSON.parse(testje);
+                for(j=0;j<testje.length;j++){
+                    for(k=0;k<4;k++){
+                        if(testje[j][k]){
+                            $scope.knownEffects[j][k]=true;
+                        }
+                    }
+                }
+            }
+            if(c.indexOf("ingredients=")===0){
+                temp_owned = JSON.parse(c.substring(12));
+                $scope.resetKnownEffects();
+                for(i=0; i<temp_owned.length;i++){
+                    $scope.addIngredients(temp_owned[i][0],temp_owned[i][1])
+                }
+            }
+        }
     }
 });

@@ -5,8 +5,34 @@
 
 {% load staticfiles %}
 
+{% block pageheader %}
+    <div class="container">
+        <h1> Skyrim Alchemy App </h1>
+    </div><!--closes Pagetitle-->
+{% endblock %}
+
 {% block maincontent %}
 {% verbatim %}
+<div>
+    <button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#instructions">
+        instructions
+    </button>
+    <div id="instructions" class="collapse">
+        <p>The best way to use this app is to start using it with a new character. You can select
+        ingredients from the list on the left to get your character's ingredients matched up in 
+        the app. When you make a potion, click make in the app and your knowledge of effects
+        gets updated right away. </p>
+        <p>You can add knowledge of ingredient effects by hand, if nessessary (eg because of eating 
+        ingredients), by clicking "show effects". The reset effects button clears your complete
+        knowledge of effects. </p>
+        <p>The bottom panel gives the best suggestion of potions that teach you new effects most
+        efficiently.</p>
+        <p>The safe progress button allows you to keep track of a single character's knowledge of
+        effects. It is stored as a cookie, so you do not get your progress in different browsers.
+        This is a non-tracking cookie, activated by yourself. This is your warning for European 
+        cookie laws.</p>
+    </div>
+</div>
 <div ng-controller="alchemy as alch">
     <div class="row">
         <div class="wrapper">
@@ -14,9 +40,38 @@
                 <h4>Existing ingredients</h4>
                 <button ng-click="showEffects=!showEffects"><span ng-show="showEffects">Hide</span><span ng-hide="showEffects">Show</span> Effects</button>
                 <button ng-click="resetKnownEffects()">Reset effects</button>
+                <select ng-model="selectIngredientSet">
+                    <option value="all" selected>all</option>
+                    <option value="a">a</option>
+                    <option value="b">b</option>
+                    <option value="c">c</option>
+                    <option value="d">d</option>
+                    <option value="e">e</option>
+                    <option value="f">f</option>
+                    <option value="g">g</option>
+                    <option value="h">h</option>
+                    <option value="i">i</option>
+                    <option value="j">j</option>
+                    <option value="k">k</option>
+                    <option value="l">l</option>
+                    <option value="m">m</option>
+                    <option value="n">n</option>
+                    <option value="o">o</option>
+                    <option value="p">p</option>
+                    <option value="q">q</option>
+                    <option value="r">r</option>
+                    <option value="s">s</option>
+                    <option value="t">t</option>
+                    <option value="u">u</option>
+                    <option value="v">v</option>
+                    <option value="w">w</option>
+                    <option value="x">x</option>
+                    <option value="y">y</option>
+                    <option value="z">z</option>
+                </select>
                 <h1 ng-hide="ingredients"><strong>Loading Ingredients</strong></h1>
                 <ul ng-repeat="ingredient in ingredients track by $index">
-                    <li>{{ingredient.name}}</br>
+                    <li ng-show="selectIngredientSet==='all'|| ingredient.name.toLowerCase().indexOf(selectIngredientSet)===0">{{ingredient.name}}</br>
                         <ul ng-repeat="effect in ingredient.effects track by $index" ng-show="showEffects">
                             <li><input type="checkbox" ng-model="knownEffects[$parent.$index][$index]" ng-change="sortLearned()">{{effect}}</li>
                         </ul> 
@@ -29,6 +84,8 @@
             <div class="col-sm-4 scroll">
                 <h4>Owned ingredients</h4>
                 <button ng-click="clearOwned()">Clear</button>
+                <button ng-click="saveProgress()">Save Character</button>
+                <button ng-click="loadProgress()">Load Character</button>
                 <ul ng-repeat="ingredient in ingredients track by $index">
                     <li ng-show="ingredient.owned"> {{ingredient.owned}} of {{ingredient.name}}</br>
                     <button class="btn btn-danger btn-xs" ng-click="addIngredients($index, -1)">del 1</button>
