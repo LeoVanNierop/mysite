@@ -279,18 +279,21 @@ app.controller("alchemy", function($scope, $http){
     $scope.loadProgress = function(){
         var i,j,k;
         var ca = document.cookie.split(";");
-        var testje
-        var temp_owned;
+        var effectList
+        var temp_owned, c;
         for(i=0;i<ca.length;i++){
-            var c=ca[i]
-            while(c.charAt(0)==' ') c = c.substring(1);//strip leading spaces
+            c=ca[i]
+            while(c.charAt(0)==' '){
+                c = c.substring(1);//strip leading spaces
+            }
             if(c.indexOf("known=")===0){
+                console.log("known");
                 $scope.resetKnownEffects();
-                testje = c.substring(6)
-                testje = JSON.parse(testje);
-                for(j=0;j<testje.length;j++){
+                effectList = c.substring(6)
+                effectList = JSON.parse(effectList);
+                for(j=0;j<effectList.length;j++){
                     for(k=0;k<4;k++){
-                        if(testje[j][k]){
+                        if(effectList[j][k]){
                             $scope.knownEffects[j][k]=true;
                         }
                     }
@@ -298,7 +301,7 @@ app.controller("alchemy", function($scope, $http){
             }
             if(c.indexOf("ingredients=")===0){
                 temp_owned = JSON.parse(c.substring(12));
-                $scope.resetKnownEffects();
+                $scope.clearOwned()
                 for(i=0; i<temp_owned.length;i++){
                     $scope.addIngredients(temp_owned[i][0],temp_owned[i][1])
                 }
